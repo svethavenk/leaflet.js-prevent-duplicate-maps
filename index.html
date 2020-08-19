@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" crossorigin=""
+        href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"
+            crossorigin=""></script>
+  <style type="text/css">
+    html, body, #map 
+    {
+        width: 100%;
+        height: 100%;
+    }
+  </style>
+</head>
+ 
+<body>     
+  <div id="map">
+     <script>
+        
+        //initialize leaflet.js map with a zoom of 3 and coordinates set to an area in London.
+        var map = L.map('map', 
+        {
+           center: [51.505, -0.09],
+           minZoom: 3,
+           zoom: 3
+        });
+        
+        //add a tile layer for the type of map and set continuous world to false (solves multiple Earth problem)
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+           continuousWorld: 'false'
+
+        }).addTo(map);
+
+        //the map stops scrolling left and right after its bounds have reached. (only 1 earth)
+        var southWest = L.latLng(-89.98155760646617, -180),
+        northEast = L.latLng(89.99346179538875, 180);
+        var bounds = L.latLngBounds(southWest, northEast);
+        map.setMaxBounds(bounds);
+
+        //drag map left and right based on bounds
+        map.on('drag', function() {
+            map.panInsideBounds(bounds, { animate: false });
+        });
+
+     </script>
+  </div>
+</body>
+
+</html>
